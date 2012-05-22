@@ -3,6 +3,9 @@ A very simple HTML5 version of Tetris, for educational purposes, made in 45 minu
 Watch the making-of timelapse:
 http://www.youtube.com/watch?v=GQTZ_TPxJhM
 
+Play:
+http://dionyziz.logimus.com/tetris/
+
 License
 =======
 This version of tetris is MIT licensed:
