@@ -1,5 +1,7 @@
 var COLS = 10, ROWS = 20;
 var board = [];
+var lose;
+var interval;
 var current, currentX, currentY;
 var shapes = [
     [ 1, 1, 1, 1 ],
@@ -57,6 +59,10 @@ function tick() {
     else {
         freeze();
         clearLines();
+        if (lose) {
+            newGame();
+            return false;
+        }    
         newShape();
     }
 }
@@ -136,6 +142,8 @@ function valid( offsetX, offsetY, newCurrent ) {
     offsetY = currentY + offsetY;
     newCurrent = newCurrent || current;
 
+
+
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
             if ( newCurrent[ y ][ x ] ) {
@@ -145,6 +153,7 @@ function valid( offsetX, offsetY, newCurrent ) {
                   || x + offsetX < 0
                   || y + offsetY >= ROWS
                   || x + offsetX >= COLS ) {
+                    if (offsetY == 1) lose = true;
                     return false;
                 }
             }
@@ -153,6 +162,12 @@ function valid( offsetX, offsetY, newCurrent ) {
     return true;
 }
 
-init();
-newShape();
-setInterval( tick, 250 );
+function newGame() {
+    clearInterval(interval);
+    init();
+    newShape();
+    lose = false;
+    interval = setInterval( tick, 250 );
+}
+
+newGame();
