@@ -2,7 +2,6 @@ var canvas = document.getElementsByTagName( 'canvas' )[ 0 ];
 var ctx = canvas.getContext( '2d' );
 var W = 300, H = 600;
 var BLOCK_W = W / COLS, BLOCK_H = H / ROWS;
-var darkMode = false;
 
 // draw a single square at (x, y)
 function drawBlock( x, y ) {
@@ -18,19 +17,18 @@ function render() {
     for ( var x = 0; x < COLS; ++x ) {
         for ( var y = 0; y < ROWS; ++y ) {
             if ( board[ y ][ x ] ) {
-                if ( !darkMode ) ctx.fillStyle = colors[ board[ y ][ x ] - 1 ];
+                ctx.fillStyle = colors[ board[ y ][ x ] - 1 ];
                 drawBlock( x, y );
             }
         }
     }
 
-    ctx.fillStyle = ( !darkMode ) ? 'red' : 'black';
-
+    ctx.fillStyle = 'red';
     ctx.strokeStyle = 'black';
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
             if ( current[ y ][ x ] ) {
-                if ( !darkMode ) ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
+                ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
                 drawBlock( currentX + x, currentY + y );
             }
         }
