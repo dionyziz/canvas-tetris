@@ -1,4 +1,4 @@
-var COLS = 10,/*10*/ ROWS = 20;
+var COLS = 10, ROWS = 20;
 var board = [];
 var lose;
 var interval;
@@ -69,7 +69,7 @@ function tick() {
         if (lose) {
             newGame();
             return false;
-        }    
+        }
         newShape();
     }
 }
@@ -108,8 +108,8 @@ function clearLines() {
                 break;
             }
         }
-        if ( rowFilled ) {    
-            document.getElementById('clearsound').play();
+        if ( rowFilled ) {
+            document.getElementById( 'clearsound' ).play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
                     board[ yy ][ x ] = board[ yy - 1 ][ x ];
@@ -156,8 +156,8 @@ function valid( offsetX, offsetY, newCurrent ) {
 
 
 
-    for ( var y = 0; y < 4; ++y ) {//4
-        for ( var x = 0; x < 4; ++x ) {//4
+    for ( var y = 0; y < 4; ++y ) {
+        for ( var x = 0; x < 4; ++x ) {
             if ( newCurrent[ y ][ x ] ) {
                 if ( typeof board[ y + offsetY ] == 'undefined'
                   || typeof board[ y + offsetY ][ x + offsetX ] == 'undefined'
@@ -165,21 +165,21 @@ function valid( offsetX, offsetY, newCurrent ) {
                   || x + offsetX < 0
                   || y + offsetY >= ROWS
                   || x + offsetX >= COLS ) {
-                    if (offsetY == 1)/*1*/ lose = true; // lose if the current shape at the top row when checked
+                    if (offsetY == 1) lose = true; // lose if the current shape at the top row when checked
                     return false;
                 }
             }
         }
     }
-    return true;//true
+    return true;
 }
 
 function newGame() {
     clearInterval(interval);
     init();
     newShape();
-    lose = false;//false
-    interval = setInterval( tick, 250 );//250
+    lose = false;
+    interval = setInterval( tick, 250 );
 }
 
 newGame();
