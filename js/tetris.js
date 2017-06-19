@@ -4,20 +4,40 @@ var lose;
 var interval;
 var current; // current moving shape
 var currentX, currentY; // position of current shape
+
+var score = 0;
+
+var button = document.getElementById("newgame");
+button.addEventListener ("click", newGame);
+
+
 var shapes = [
-    [ 1, 1, 1, 1 ],
-    [ 1, 1, 1, 0,
-      1 ],
-    [ 1, 1, 1, 0,
-      0, 0, 1 ],
-    [ 1, 1, 0, 0,
-      1, 1 ],
-    [ 1, 1, 0, 0,
-      0, 1, 1 ],
-    [ 0, 1, 1, 0,
-      1, 1 ],
-    [ 0, 1, 0, 0,
-      1, 1, 1 ]
+
+    [0,0,0,0,
+     0,0,0,0,
+     1,1,1,1],
+
+    [0,0,0,0,
+     1,1,1,0,
+     1,0,0,0],
+
+    [0,0,0,0,
+     1,1,1,0,
+     0,0,1,0],
+
+    [0,0,0,0,
+     0,1,1,0,
+     0,1,1,0],
+
+    [0,0,0,0,
+     0,0,1,1,
+     0,1,1,0],
+
+    [0,0,0,0,
+     0,1,0,0,
+     1,1,1,0]
+
+
 ];
 var colors = [
     'cyan', 'orange', 'blue', 'yellow', 'red', 'green', 'purple'
@@ -100,6 +120,7 @@ function rotate( current ) {
 
 // check if any lines are filled and clear them
 function clearLines() {
+
     for ( var y = ROWS - 1; y >= 0; --y ) {
         var rowFilled = true;
         for ( var x = 0; x < COLS; ++x ) {
@@ -109,6 +130,10 @@ function clearLines() {
             }
         }
         if ( rowFilled ) {
+
+            score = score + 1;
+            document.getElementById("score").innerHTML = "Score: " + score.toString();
+
             document.getElementById( 'clearsound' ).play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
@@ -138,6 +163,12 @@ function keyPress( key ) {
             }
             break;
         case 'rotate':
+            var rotated = rotate( current );
+            if ( valid( 0, 0, rotated ) ) {
+                current = rotated;
+            }
+            break;
+        case 'rotate2':
             var rotated = rotate( current );
             if ( valid( 0, 0, rotated ) ) {
                 current = rotated;
@@ -175,6 +206,8 @@ function valid( offsetX, offsetY, newCurrent ) {
 }
 
 function newGame() {
+    score = 0;
+    document.getElementById("score").innerHTML = "Score: " + score.toString();
     clearInterval(interval);
     init();
     newShape();
