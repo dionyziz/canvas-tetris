@@ -132,10 +132,6 @@ function clearLines() {
 
             score = score + 1;
             document.getElementById("score").innerHTML = "Score: " + score.toString();
-
-
-            //hier animation
-
             document.getElementById( 'clearsound' ).play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
