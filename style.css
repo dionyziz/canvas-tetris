@@ -1,7 +1,8 @@
 canvas {
     display: block;
     margin: auto;
-    border: 1px solid black;}
+    border: 1px solid black;
+}
 
 div{
     font-family: sans-serif;
