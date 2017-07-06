@@ -5,13 +5,6 @@ var interval;
 var current; // current moving shape
 var currentX, currentY; // position of current shape
 
-var score = 0;
-var pause = false;
-
-var button = document.getElementById("newgame");
-button.addEventListener ("click", newGame);
-
-
 var shapes = [
 
     [0,0,0,0,
@@ -81,7 +74,9 @@ function init() {
 // keep the element moving down, creating new shapes and clearing lines
 function tick() {
 
-    if(!pause) {
+    if(pause) {
+        return;
+    }
 
         if (valid(0, 1)) {
             ++currentY;
@@ -96,7 +91,7 @@ function tick() {
             }
             newShape();
         }
-    }
+
 }
 
 // stop shape at its position and fix it to board
@@ -138,6 +133,9 @@ function clearLines() {
             score = score + 1;
             document.getElementById("score").innerHTML = "Score: " + score.toString();
 
+
+            //hier animation
+
             document.getElementById( 'clearsound' ).play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
@@ -152,29 +150,23 @@ function clearLines() {
 function keyPress( key ) {
     switch ( key ) {
         case 'left':
-            if ( valid( -1 ) && (!pause) ) {
+            if ( valid( -1 ) && !pause ) {
                 --currentX;
             }
             break;
         case 'right':
-            if ( valid( 1 ) && (!pause) ) {
+            if ( valid( 1 ) && !pause ) {
                 ++currentX;
             }
             break;
         case 'down':
-            if ( valid( 0, 1 ) && (!pause) ) {
+            if ( valid( 0, 1 ) && !pause ) {
                 ++currentY;
             }
             break;
         case 'rotate':
             var rotated = rotate( current );
-            if ( valid( 0, 0, rotated ) && (!pause) ) {
-                current = rotated;
-            }
-            break;
-        case 'rotate2':
-            var rotated = rotate( current );
-            if ( valid( 0, 0, rotated ) && (!pause) ) {
+            if ( valid( 0, 0, rotated ) && !pause ) {
                 current = rotated;
             }
             break;

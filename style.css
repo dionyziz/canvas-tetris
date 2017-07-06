@@ -3,14 +3,18 @@ canvas {
     margin: auto;
     border: 1px solid black;}
 
-div.container p {
-    font-family: Arial;
+div{
+    font-family: sans-serif;
     font-size: 14px;
-    font-style: normal;
     font-weight: bold;
-    text-decoration: none;
-    text-transform: none;
-    color: #000000;
-    background-color: #ffffff;
+    text-align: center;
 }
+
+Button {
+    display: block;
+    margin: auto;
+}
+
+
+
 

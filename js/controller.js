@@ -4,7 +4,7 @@ document.body.onkeydown = function( e ) {
         39: 'right',
         40: 'down',
         38: 'rotate',
-        32: 'rotate2',
+        32: 'rotate',
         80: 'pause'
     };
     if ( typeof keys[ e.keyCode ] != 'undefined' ) {
