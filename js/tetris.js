@@ -114,7 +114,7 @@ function rotate( current ) {
                 newCurrent[y][x] = current[3 - x][y];
             }
         }
-        return newCurrent;
+    return newCurrent;
 }
 
 // check if any lines are filled and clear them
