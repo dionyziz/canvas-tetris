@@ -4,7 +4,7 @@ Watch the making-of timelapse:
 http://www.youtube.com/watch?v=GQTZ_TPxJhM
 
 Play:
-http://dionyziz.logimus.com/tetris/
+https://dionyziz.com/graphics/canvas-tetris/
 
 License
 =======
