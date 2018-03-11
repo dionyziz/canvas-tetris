@@ -4,20 +4,34 @@ var lose;
 var interval;
 var current; // current moving shape
 var currentX, currentY; // position of current shape
+
 var shapes = [
-    [ 1, 1, 1, 1 ],
-    [ 1, 1, 1, 0,
-      1 ],
-    [ 1, 1, 1, 0,
-      0, 0, 1 ],
-    [ 1, 1, 0, 0,
-      1, 1 ],
-    [ 1, 1, 0, 0,
-      0, 1, 1 ],
-    [ 0, 1, 1, 0,
-      1, 1 ],
-    [ 0, 1, 0, 0,
-      1, 1, 1 ]
+
+    [0,0,0,0,
+     0,0,0,0,
+     1,1,1,1],
+
+    [0,0,0,0,
+     1,1,1,0,
+     1,0,0,0],
+
+    [0,0,0,0,
+     1,1,1,0,
+     0,0,1,0],
+
+    [0,0,0,0,
+     0,1,1,0,
+     0,1,1,0],
+
+    [0,0,0,0,
+     0,0,1,1,
+     0,1,1,0],
+
+    [0,0,0,0,
+     0,1,0,0,
+     1,1,1,0]
+
+
 ];
 var colors = [
     'cyan', 'orange', 'blue', 'yellow', 'red', 'green', 'purple'
@@ -59,19 +73,25 @@ function init() {
 
 // keep the element moving down, creating new shapes and clearing lines
 function tick() {
-    if ( valid( 0, 1 ) ) {
-        ++currentY;
+
+    if(pause) {
+        return;
     }
-    // if the element settled
-    else {
-        freeze();
-        clearLines();
-        if (lose) {
-            newGame();
-            return false;
+
+        if (valid(0, 1)) {
+            ++currentY;
         }
-        newShape();
-    }
+        // if the element settled
+        else {
+            freeze();
+            clearLines();
+            if (lose) {
+                newGame();
+                return false;
+            }
+            newShape();
+        }
+
 }
 
 // stop shape at its position and fix it to board
@@ -87,19 +107,19 @@ function freeze() {
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise
 function rotate( current ) {
-    var newCurrent = [];
-    for ( var y = 0; y < 4; ++y ) {
-        newCurrent[ y ] = [];
-        for ( var x = 0; x < 4; ++x ) {
-            newCurrent[ y ][ x ] = current[ 3 - x ][ y ];
+        var newCurrent = [];
+        for (var y = 0; y < 4; ++y) {
+            newCurrent[y] = [];
+            for (var x = 0; x < 4; ++x) {
+                newCurrent[y][x] = current[3 - x][y];
+            }
         }
-    }
-
     return newCurrent;
 }
 
 // check if any lines are filled and clear them
 function clearLines() {
+
     for ( var y = ROWS - 1; y >= 0; --y ) {
         var rowFilled = true;
         for ( var x = 0; x < COLS; ++x ) {
@@ -109,6 +129,9 @@ function clearLines() {
             }
         }
         if ( rowFilled ) {
+
+            score = score + 1;
+            document.getElementById("score").innerHTML = "Score: " + score.toString();
             document.getElementById( 'clearsound' ).play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
@@ -123,25 +146,28 @@ function clearLines() {
 function keyPress( key ) {
     switch ( key ) {
         case 'left':
-            if ( valid( -1 ) ) {
+            if ( valid( -1 ) && !pause ) {
                 --currentX;
             }
             break;
         case 'right':
-            if ( valid( 1 ) ) {
+            if ( valid( 1 ) && !pause ) {
                 ++currentX;
             }
             break;
         case 'down':
-            if ( valid( 0, 1 ) ) {
+            if ( valid( 0, 1 ) && !pause ) {
                 ++currentY;
             }
             break;
         case 'rotate':
             var rotated = rotate( current );
-            if ( valid( 0, 0, rotated ) ) {
+            if ( valid( 0, 0, rotated ) && !pause ) {
                 current = rotated;
             }
+            break;
+        case 'pause':
+            pause = !pause;
             break;
     }
 }
@@ -175,6 +201,8 @@ function valid( offsetX, offsetY, newCurrent ) {
 }
 
 function newGame() {
+    score = 0;
+    document.getElementById("score").innerHTML = "Score: " + score.toString();
     clearInterval(interval);
     init();
     newShape();

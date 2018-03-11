@@ -3,3 +3,19 @@ canvas {
     margin: auto;
     border: 1px solid black;
 }
+
+div{
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+Button {
+    display: block;
+    margin: auto;
+}
+
+
+
+
