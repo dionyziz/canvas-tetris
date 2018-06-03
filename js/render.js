@@ -34,5 +34,3 @@ function render() {
         }
     }
 }
-
-setInterval( render, 30 );

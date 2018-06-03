@@ -67,7 +67,6 @@ function tick() {
         freeze();
         clearLines();
         if (lose) {
-            newGame();
             return false;
         }
         newShape();
@@ -174,12 +173,15 @@ function valid( offsetX, offsetY, newCurrent ) {
     return true;
 }
 
+function playButtonClicked() {
+    newGame();
+}
+
 function newGame() {
-    clearInterval(interval);
+    clearInterval( interval );
+    setInterval( render, 30 );
     init();
     newShape();
     lose = false;
     interval = setInterval( tick, 250 );
 }
-
-newGame();
