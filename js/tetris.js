@@ -148,6 +148,11 @@ function keyPress( key ) {
                 current = rotated;
             }
             break;
+        case 'drop':
+            while( valid(0, 1) ) {
+                ++currentY;
+            }
+            break;
     }
 }
 
@@ -191,5 +196,5 @@ function newGame() {
     init();
     newShape();
     lose = false;
-    interval = setInterval( tick, 250 );
+    interval = setInterval( tick, 400 );
 }
