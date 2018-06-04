@@ -4,6 +4,7 @@ var lose;
 var interval;
 var current; // current moving shape
 var currentX, currentY; // position of current shape
+var freezed; // is current shape settled on the board?
 var shapes = [
     [ 1, 1, 1, 1 ],
     [ 1, 1, 1, 0,
@@ -42,6 +43,9 @@ function newShape() {
             }
         }
     }
+    
+    // new shape starts to move
+    freezed = false;
     // position where the shape will evolve
     currentX = 5;
     currentY = 0;
@@ -65,9 +69,9 @@ function tick() {
     // if the element settled
     else {
         freeze();
+        valid(0, 1);
         clearLines();
         if (lose) {
-            newGame();
             return false;
         }
         newShape();
@@ -83,6 +87,7 @@ function freeze() {
             }
         }
     }
+    freezed = true;
 }
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise
@@ -143,6 +148,12 @@ function keyPress( key ) {
                 current = rotated;
             }
             break;
+        case 'drop':
+            while( valid(0, 1) ) {
+                ++currentY;
+            }
+            tick();
+            break;
     }
 }
 
@@ -154,8 +165,6 @@ function valid( offsetX, offsetY, newCurrent ) {
     offsetY = currentY + offsetY;
     newCurrent = newCurrent || current;
 
-
-
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
             if ( newCurrent[ y ][ x ] ) {
@@ -165,7 +174,10 @@ function valid( offsetX, offsetY, newCurrent ) {
                   || x + offsetX < 0
                   || y + offsetY >= ROWS
                   || x + offsetX >= COLS ) {
-                    if (offsetY == 1) lose = true; // lose if the current shape at the top row when checked
+                    if (offsetY == 1 && freezed) {
+                        lose = true; // lose if the current shape is settled at the top most row
+                        document.getElementById('playbutton').disabled = false;
+                    } 
                     return false;
                 }
             }
@@ -174,12 +186,16 @@ function valid( offsetX, offsetY, newCurrent ) {
     return true;
 }
 
+function playButtonClicked() {
+    newGame();
+    document.getElementById("playbutton").disabled = true;
+}
+
 function newGame() {
-    clearInterval(interval);
+    clearInterval( interval );
+    setInterval( render, 30 );
     init();
     newShape();
     lose = false;
-    interval = setInterval( tick, 250 );
+    interval = setInterval( tick, 400 );
 }
-
-newGame();
