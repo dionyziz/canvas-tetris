@@ -152,6 +152,7 @@ function keyPress( key ) {
             while( valid(0, 1) ) {
                 ++currentY;
             }
+            tick();
             break;
     }
 }
