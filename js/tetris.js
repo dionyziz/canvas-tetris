@@ -26,7 +26,7 @@ function newShape() {
             }
         }
     }
-    
+
     // new shape starts to move
     freezed = false;
     // position where the shape will evolve
@@ -73,15 +73,15 @@ function freeze() {
     freezed = true;
     if( !lose ){
         var dropSound = new Audio( 'sound/block-drop.mp3' );
-        dropSound.play();   
+        dropSound.play();
     }
 }
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise
 function rotate( current ) {
-    var shape; 
+    var shape;
     var newCurrent = [];
-    
+
     if( currentId % 4 == 3) {
         currentId -= 3;
     }
@@ -181,7 +181,7 @@ function valid( offsetX, offsetY, newCurrent ) {
                         lose = true; // lose if the current shape is settled at the top most row
                         document.getElementById('playbutton').disabled = false;
                         gameOver();
-                    } 
+                    }
                     return false;
                 }
             }
@@ -191,23 +191,13 @@ function valid( offsetX, offsetY, newCurrent ) {
 }
 
 function playButtonClicked() {
+    drawLine();
     newGame();
     document.getElementById('playbutton').disabled = true;
 }
 
-function gameOver() {
-	clearInterval( setcolor );
-    ctx.fillStyle = 'black';
-    ctx.globalAlpha = '0.1';
-    ctx.fillRect( 0, 0, 300, 600 );
-    ctx.fillStyle = 'white';
-    ctx.globalAlpha = '1';
-    ctx.font = '30px Arial';
-    ctx.fillText( 'Game Over', 75, 300 );
-}
-
 function newGame() {
-	ctx.globalAlpha = '1';
+    ctx.globalAlpha = '1';
     clearInterval( interval );
     setcolor = setInterval( render, 30 );
     init();

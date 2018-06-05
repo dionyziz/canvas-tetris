@@ -34,3 +34,26 @@ function render() {
         }
     }
 }
+
+function drawLine() {
+    ctx.clearRect( 300, 0, 140, 600 );
+    ctx.strokeStyle = 'black';
+    ctx.beginPath();
+    ctx.moveTo( 300, 0 );
+    ctx.lineTo( 300, 600 );
+    ctx.stroke();
+    ctx.font = '18.5pt Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText( 'next block', 310, 40 );
+}
+
+function gameOver() {
+    clearInterval( setcolor );
+    ctx.fillStyle = 'black';
+    ctx.globalAlpha = '0.1';
+    ctx.fillRect( 0, 0, 440, 600 );
+    ctx.fillStyle = 'white';
+    ctx.globalAlpha = '1';
+    ctx.font = '30px Arial';
+    ctx.fillText( 'Game Over', 150, 300 );
+}
