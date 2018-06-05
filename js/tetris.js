@@ -71,6 +71,10 @@ function freeze() {
         }
     }
     freezed = true;
+    if( !lose ){
+        var dropSound = new Audio( 'sound/block-drop.mp3' );
+        dropSound.play();   
+    }
 }
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise
@@ -112,7 +116,8 @@ function clearLines() {
             }
         }
         if ( rowFilled ) {
-            document.getElementById( 'clearsound' ).play();
+            var clearSound = new Audio( 'sound/line-clear.mp3' );
+            clearSound.play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
                     board[ yy ][ x ] = board[ yy - 1 ][ x ];
