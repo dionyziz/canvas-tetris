@@ -44,7 +44,19 @@ function drawLine() {
     ctx.stroke();
     ctx.font = '18.5pt Arial';
     ctx.fillStyle = 'black';
-    ctx.fillText( 'next block', 310, 40 );
+    ctx.fillText( 'next block', 315, 40 );
+}
+
+function drawNext() {
+    ctx.clearRect( 301, 50, 139, 600 );
+    for ( var y = 0; y < 4; ++y ) {
+        for ( var x = 0; x < 4; ++x ) {
+            if ( next[ y ][ x ] ) {
+                ctx.fillStyle = colors[ next[ y ][ x ] - 1 ];
+                drawBlock( 10.5 + x, 2 + y );
+            }
+        }
+    }
 }
 
 function gameOver() {

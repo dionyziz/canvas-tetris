@@ -3,35 +3,43 @@ var board = [];
 var lose;
 var interval, setcolor;
 var current; // current moving shape
+var next; // next moving shape
 var currentId; // id of current moving shape
+var nextId; // id of next moving shape
 var currentX, currentY; // position of current shape
 var freezed; // is current shape settled on the board?
 
-// creates a new 4x4 shape in global variable 'current'
+// creates a new 4x4 shape in global variable 'next'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape() {
-    currentId = Math.floor( Math.random() * shapes.length );
-    var shape = shapes[ currentId ]; // maintain id for color filling
+    nextId = Math.floor( Math.random() * shapes.length );
+    var shape = shapes[ nextId ]; // maintain id for color filling
 
-    current = [];
+    next = [];
     for ( var y = 0; y < 4; ++y ) {
-        current[ y ] = [];
+        next[ y ] = [];
         for ( var x = 0; x < 4; ++x ) {
             var i = 4 * y + x;
             if ( typeof shape[ i ] != 'undefined' && shape[ i ] ) {
-                current[ y ][ x ] = currentId + 1;
+                next[ y ][ x ] = nextId + 1;
             }
             else {
-                current[ y ][ x ] = 0;
+                next[ y ][ x ] = 0;
             }
         }
     }
 
-    // new shape starts to move
-    freezed = false;
-    // position where the shape will evolve
+    drawNext();
+}
+
+// move 'next' shape to 'current' shape
+function moveToCurrent() {
+    current = next.slice(); // move next shape to current shape
+    currentId = nextId;
+    freezed = false; // position where the shape will evolve
     currentX = 5;
     currentY = 0;
+    newShape();
 }
 
 // clears the board
@@ -57,7 +65,7 @@ function tick() {
         if (lose) {
             return false;
         }
-        newShape();
+        moveToCurrent();
     }
 }
 
@@ -202,6 +210,7 @@ function newGame() {
     setcolor = setInterval( render, 30 );
     init();
     newShape();
+    moveToCurrent();
     lose = false;
     interval = setInterval( tick, 400 );
 }
