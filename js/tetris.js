@@ -1,7 +1,7 @@
 var COLS = 10, ROWS = 20;
 var board = [];
 var lose;
-var interval;
+var interval, setcolor;
 var current; // current moving shape
 var currentId; // id of current moving shape
 var currentX, currentY; // position of current shape
@@ -180,6 +180,7 @@ function valid( offsetX, offsetY, newCurrent ) {
                     if (offsetY == 1 && freezed) {
                         lose = true; // lose if the current shape is settled at the top most row
                         document.getElementById('playbutton').disabled = false;
+                        gameOver();
                     } 
                     return false;
                 }
@@ -191,12 +192,24 @@ function valid( offsetX, offsetY, newCurrent ) {
 
 function playButtonClicked() {
     newGame();
-    document.getElementById("playbutton").disabled = true;
+    document.getElementById('playbutton').disabled = true;
+}
+
+function gameOver() {
+	clearInterval( setcolor );
+    ctx.fillStyle = 'black';
+    ctx.globalAlpha = '0.1';
+    ctx.fillRect( 0, 0, 300, 600 );
+    ctx.fillStyle = 'white';
+    ctx.globalAlpha = '1';
+    ctx.font = '30px Arial';
+    ctx.fillText( 'Game Over', 75, 300 );
 }
 
 function newGame() {
+	ctx.globalAlpha = '1';
     clearInterval( interval );
-    setInterval( render, 30 );
+    setcolor = setInterval( render, 30 );
     init();
     newShape();
     lose = false;
