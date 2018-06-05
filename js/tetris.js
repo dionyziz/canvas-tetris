@@ -125,6 +125,7 @@ function clearLines() {
         }
         if ( rowFilled ) {
             var clearSound = new Audio( 'sound/line-clear.mp3' );
+            clearSound.volume = 0.3;
             clearSound.play();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
@@ -155,6 +156,9 @@ function keyPress( key ) {
             break;
         case 'rotate':
             var rotated = rotate( current );
+            var rotateSound = new Audio( 'sound/block-rotate.mp3' );
+            rotateSound.volume = 0.7
+            rotateSound.play();
             if ( valid( 0, 0, rotated ) ) {
                 current = rotated;
             }
@@ -187,7 +191,7 @@ function valid( offsetX, offsetY, newCurrent ) {
                   || x + offsetX >= COLS ) {
                     if (offsetY == 1 && freezed) {
                         lose = true; // lose if the current shape is settled at the top most row
-                        document.getElementById('playbutton').disabled = false;
+                        document.getElementById( 'playbutton' ).disabled = false;
                         gameOver();
                     }
                     return false;
@@ -201,7 +205,7 @@ function valid( offsetX, offsetY, newCurrent ) {
 function playButtonClicked() {
     drawLine();
     newGame();
-    document.getElementById('playbutton').disabled = true;
+    document.getElementById( 'playbutton' ).disabled = true;
 }
 
 function newGame() {
