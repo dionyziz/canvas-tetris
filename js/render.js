@@ -30,6 +30,9 @@ function render() {
             if ( current[ y ][ x ] ) {
                 ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
                 drawBlock( currentX + x, currentY + y );
+                ctx.globalAlpha = 0.4;
+                drawBlock( ghostCurrentX + x, ghostCurrentY + y );
+                ctx.globalAlpha = 1.0;
             }
         }
     }

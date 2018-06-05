@@ -7,6 +7,7 @@ var next; // next moving shape
 var currentId; // id of current moving shape
 var nextId; // id of next moving shape
 var currentX, currentY; // position of current shape
+var ghostCurrentX, ghostCurrentY; // position of ghost of current shape
 var freezed; // is current shape settled on the board?
 
 // creates a new 4x4 shape in global variable 'next'
@@ -36,10 +37,14 @@ function newShape() {
 function moveToCurrent() {
     current = next.slice(); // move next shape to current shape
     currentId = nextId;
-    freezed = false; // position where the shape will evolve
-    currentX = 5;
-    currentY = 0;
+    freezed = false;
+    // position where the shape will evolve
+    currentX = ghostCurrentX = 5;
+    currentY = ghostCurrentY = 0;
     newShape();
+    while( pullDownGhost() ) {
+        ++ghostCurrentY;
+    }
 }
 
 // clears the board
@@ -142,11 +147,21 @@ function keyPress( key ) {
         case 'left':
             if ( valid( -1 ) ) {
                 --currentX;
+                --ghostCurrentX;
+                ghostCurrentY = currentY;
+                while( pullDownGhost() ) {
+                    ++ghostCurrentY;
+                }
             }
             break;
         case 'right':
             if ( valid( 1 ) ) {
                 ++currentX;
+                ++ghostCurrentX;
+                ghostCurrentY = currentY;
+                while( pullDownGhost() ) {
+                    ++ghostCurrentY;
+                }
             }
             break;
         case 'down':
@@ -161,6 +176,10 @@ function keyPress( key ) {
             rotateSound.play();
             if ( valid( 0, 0, rotated ) ) {
                 current = rotated;
+                ghostCurrentY = currentY;
+                while( pullDownGhost() ) {
+                    ++ghostCurrentY;
+                }
             }
             break;
         case 'drop':
@@ -170,6 +189,24 @@ function keyPress( key ) {
             tick();
             break;
     }
+}
+
+function pullDownGhost( newCurrent ) {
+    var ghostOffsetY = ghostCurrentY + 1;
+    newCurrent = newCurrent || current;
+
+    for ( var y = 0; y < 4; ++y ) {
+        for ( var x = 0; x < 4; ++x ) {
+            if ( newCurrent[ y ][ x ] ) {
+                if ( typeof board[ y + ghostOffsetY ] == 'undefined'
+                  || typeof board[ y + ghostOffsetY ][ x + currentX ] == 'undefined'
+                  || board[ y + ghostOffsetY ][ x + currentX ] ) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 // checks if the resulting position of current shape will be feasible
