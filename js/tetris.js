@@ -3,32 +3,15 @@ var board = [];
 var lose;
 var interval;
 var current; // current moving shape
+var currentId; // id of current moving shape
 var currentX, currentY; // position of current shape
 var freezed; // is current shape settled on the board?
-var shapes = [
-    [ 1, 1, 1, 1 ],
-    [ 1, 1, 1, 0,
-      1 ],
-    [ 1, 1, 1, 0,
-      0, 0, 1 ],
-    [ 1, 1, 0, 0,
-      1, 1 ],
-    [ 1, 1, 0, 0,
-      0, 1, 1 ],
-    [ 0, 1, 1, 0,
-      1, 1 ],
-    [ 0, 1, 0, 0,
-      1, 1, 1 ]
-];
-var colors = [
-    'cyan', 'orange', 'blue', 'yellow', 'red', 'green', 'purple'
-];
 
 // creates a new 4x4 shape in global variable 'current'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape() {
-    var id = Math.floor( Math.random() * shapes.length );
-    var shape = shapes[ id ]; // maintain id for color filling
+    currentId = Math.floor( Math.random() * shapes.length );
+    var shape = shapes[ currentId ]; // maintain id for color filling
 
     current = [];
     for ( var y = 0; y < 4; ++y ) {
@@ -36,7 +19,7 @@ function newShape() {
         for ( var x = 0; x < 4; ++x ) {
             var i = 4 * y + x;
             if ( typeof shape[ i ] != 'undefined' && shape[ i ] ) {
-                current[ y ][ x ] = id + 1;
+                current[ y ][ x ] = currentId + 1;
             }
             else {
                 current[ y ][ x ] = 0;
@@ -92,14 +75,29 @@ function freeze() {
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise
 function rotate( current ) {
+    var shape; 
     var newCurrent = [];
+    
+    if( currentId % 4 == 3) {
+        currentId -= 3;
+    }
+    else {
+        currentId += 1;
+    }
+
+    shape = shapes[ currentId ];
     for ( var y = 0; y < 4; ++y ) {
         newCurrent[ y ] = [];
         for ( var x = 0; x < 4; ++x ) {
-            newCurrent[ y ][ x ] = current[ 3 - x ][ y ];
+            var i = 4 * y + x;
+            if ( typeof shape[ i ] != 'undefined' && shape[ i ] ) {
+                newCurrent[ y ][ x ] = currentId + 1;
+            }
+            else {
+                newCurrent[ y ][ x ] = 0;
+            }
         }
     }
-
     return newCurrent;
 }
 
