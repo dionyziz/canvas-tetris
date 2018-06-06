@@ -63,6 +63,15 @@ function drawNext() {
 }
 
 function gameOver() {
+    ctx.strokeStyle = 'black';
+    for ( var x = 0; x < COLS; ++x ) {
+        for ( var y = 0; y < ROWS; ++y ) {
+            if ( board[ y ][ x ] ) {
+                ctx.fillStyle = 'gray';
+                drawBlock( x, y );
+            }
+        }
+    }
     clearInterval( setcolor );
     ctx.fillStyle = 'black';
     ctx.globalAlpha = '0.1';
