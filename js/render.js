@@ -36,9 +36,59 @@ function render() {
                     ctx.globalAlpha = 1.0;
                 }
                 else {
-                  return;
+                    if( !lose ) {
+                        drawLast();
+                    }
+                    return;
                 }
             }
+        }
+    }
+}
+
+function drawLast() {
+    ctx.strokeStyle = 'black';
+    var row = 10;
+    var cnt = 0;
+    for ( var y = 3; y >= 0 ; --y ) {
+        for ( var x = 0; x < 4; ++x ) {
+            if ( current[ y ][ x ] ) {
+                for (var r = 2; r>=0; --r ) {
+                    if( !board[ r ][ x + currentX ] ){
+                        if ( row > r + cnt ) {
+                            row = r + cnt;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        if( row != 10){
+            cnt++;
+        }
+    }
+    if( row == 10){
+        return;
+    }
+
+    var cnt = 0;
+    var empty = 1;
+    console.log("drawLast")
+    for ( var y = 3; y >= 0; y-- ) {
+        for ( var x = 3; x >= 0; x-- ) {
+            if ( current[ y ][ x ] ) {
+                if ( typeof board[ row - cnt ] == 'undefined'
+                    || typeof board[ row - cnt ][ x + currentX ] == 'undefined'
+                    || !board[ row - cnt][currentX + x] ) {
+                        ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
+                        board [ row - cnt ][ currentX + x ] = current [ y ][ x ];
+                        drawBlock( currentX + x, row - cnt );
+                        empty = 0;
+                }
+            }
+        }
+        if(!empty){
+            cnt++;
         }
     }
 }
