@@ -6,7 +6,7 @@ document.body.onkeydown = function( e ) {
         38: 'rotate',
         32: 'drop'
     };
-    if ( typeof keys[ e.keyCode ] != 'undefined' ) {
+    if ( typeof keys[ e.keyCode ] != 'undefined' && !lose) {
         keyPress( keys[ e.keyCode ] );
         render();
     }
