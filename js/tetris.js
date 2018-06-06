@@ -76,10 +76,12 @@ function tick() {
 
 // stop shape at its position and fix it to board
 function freeze() {
-    for ( var y = 0; y < 4; ++y ) {
-        for ( var x = 0; x < 4; ++x ) {
-            if ( current[ y ][ x ] ) {
-                board[ y + currentY ][ x + currentX ] = current[ y ][ x ];
+    if( !checkLast() ){
+        for ( var y = 0; y < 4; ++y ) {
+            for ( var x = 0; x < 4; ++x ) {
+                if ( current[ y ][ x ] ) {
+                    board[ y + currentY ][ x + currentX ] = current[ y ][ x ];
+                }
             }
         }
     }
@@ -88,6 +90,20 @@ function freeze() {
         var dropSound = new Audio( 'sound/block-drop.mp3' );
         dropSound.play();
     }
+}
+
+function checkLast(){
+    for ( var y = 0; y < 4; ++y ) {
+        for ( var x = 0; x < 4; ++x ) {
+            if( current[ y ][ x ]){
+                if( board[ y + currentY ][ x + currentX ] ) {
+                    clearInterval (setcolor);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise

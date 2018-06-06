@@ -28,11 +28,16 @@ function render() {
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
             if ( current[ y ][ x ] ) {
-                ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
-                drawBlock( currentX + x, currentY + y );
-                ctx.globalAlpha = 0.4;
-                drawBlock( ghostCurrentX + x, ghostCurrentY + y );
-                ctx.globalAlpha = 1.0;
+                if( !checkLast() ) {
+                    ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
+                    drawBlock( currentX + x, currentY + y );
+                    ctx.globalAlpha = 0.4;
+                    drawBlock( ghostCurrentX + x, ghostCurrentY + y );
+                    ctx.globalAlpha = 1.0;
+                }
+                else {
+                  return;
+                }
             }
         }
     }
