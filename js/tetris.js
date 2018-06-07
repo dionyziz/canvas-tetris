@@ -1,5 +1,7 @@
 var COLS = 10, ROWS = 20;
 var board = [];
+var shuffleList = [ 0, 1, 2, 3, 4, 5, 6 ];
+var currentShuffleIndex = 0;
 var lose;
 var interval, setcolor;
 var current; // current moving shape
@@ -13,7 +15,7 @@ var freezed; // is current shape settled on the board?
 // creates a new 4x4 shape in global variable 'next'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape() {
-    nextId = Math.floor( Math.random() * shapes.length );
+    nextId = getNextId();
     var shape = shapes[ nextId ]; // maintain id for color filling
 
     next = [];
@@ -31,6 +33,25 @@ function newShape() {
     }
 
     drawNext();
+}
+
+// get id of next shape in shuffle list
+function getNextId(){
+    var index = currentShuffleIndex;
+    if ( index == 0 ) {
+        for (var i = shuffleList.length - 1; i > 0; i--) {
+            var j = Math.floor( Math.random() * ( i + 1 ) );
+            [ shuffleList[ i ], shuffleList[ j ] ] = [ shuffleList[ j ], shuffleList[ i ] ];
+        }
+        currentShuffleIndex += 1;
+    }
+    else if ( index == 6 ) {
+        currentShuffleIndex = 0;
+    }
+    else {
+        currentShuffleIndex += 1;
+    }
+    return shuffleList[ index ] * 4 + Math.floor( Math.random() * 4 );
 }
 
 // move 'next' shape to 'current' shape
