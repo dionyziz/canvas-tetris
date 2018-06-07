@@ -58,7 +58,6 @@ function drawLast() {
                         if ( row > r + cnt ) {
                             row = r + cnt;
                         }
-                        break;
                     }
                 }
             }
@@ -73,8 +72,10 @@ function drawLast() {
 
     var cnt = 0;
     var empty = 1;
-    console.log("drawLast")
     for ( var y = 3; y >= 0; y-- ) {
+        if ( row - cnt < 0 ) {
+            break;
+        }
         for ( var x = 3; x >= 0; x-- ) {
             if ( current[ y ][ x ] ) {
                 if ( typeof board[ row - cnt ] == 'undefined'
