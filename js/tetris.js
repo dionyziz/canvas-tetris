@@ -51,7 +51,7 @@ function getNextId(){
     else {
         currentShuffleIndex += 1;
     }
-    return shuffleList[ index ] * 4 + Math.floor( Math.random() * 4 );
+    return shuffleList[ index ] * 4;
 }
 
 // move 'next' shape to 'current' shape
