@@ -5,33 +5,73 @@ var currentShuffleIndex = 0;
 var lose;
 var interval, setcolor;
 var current; // current moving shape
-var next; // next moving shape
+var next1, next2, next3; // next moving shape (next3 -> next2 -> next1 -> current)
 var currentId; // id of current moving shape
-var nextId; // id of next moving shape
+var next1Id, next2Id, next3Id; // id of next moving shape
 var currentX, currentY; // position of current shape
 var ghostCurrentX, ghostCurrentY; // position of ghost of current shape
 var freezed; // is current shape settled on the board?
 
 // creates a new 4x4 shape in global variable 'next'
 // 4x4 so as to cover the size when the shape is rotated
-function newShape() {
-    nextId = getNextId();
-    var shape = shapes[ nextId ]; // maintain id for color filling
+function newShape( init ) {
 
-    next = [];
-    for ( var y = 0; y < 4; ++y ) {
-        next[ y ] = [];
-        for ( var x = 0; x < 4; ++x ) {
-            var i = 4 * y + x;
-            if ( typeof shape[ i ] != 'undefined' && shape[ i ] ) {
-                next[ y ][ x ] = nextId + 1;
-            }
-            else {
-                next[ y ][ x ] = 0;
+    if( init == true ) {
+        next1Id = getNextId();
+        next2Id = getNextId();
+        next3Id = getNextId();
+        var shape1 = shapes[ next1Id ];
+        var shape2 = shapes[ next2Id ];
+        var shape3 = shapes[ next3Id ];
+
+        next1 = [];
+        next2 = [];
+        next3 = [];
+        for ( var y = 0; y < 4; ++y ) {
+            next1[ y ] = [];
+            next2[ y ] = [];
+            next3[ y ] = [];
+            for ( var x = 0; x < 4; ++x ) {
+                var i = 4 * y + x;
+                if ( typeof shape1[ i ] != 'undefined' && shape1[ i ] ) {
+                    next1[ y ][ x ] = next1Id + 1;
+                }
+                else {
+                    next1[ y ][ x ] = 0;
+                }
+                if ( typeof shape2[ i ] != 'undefined' && shape2[ i ] ) {
+                    next2[ y ][ x ] = next2Id + 1;
+                }
+                else {
+                    next2[ y ][ x ] = 0;
+                }
+                if ( typeof shape3[ i ] != 'undefined' && shape3[ i ] ) {
+                    next3[ y ][ x ] = next3Id + 1;
+                }
+                else {
+                    next3[ y ][ x ] = 0;
+                }
             }
         }
     }
+    else {
+        next3Id = getNextId();
+        var shape = shapes[ next3Id ]; // maintain id for color filling
 
+        next3 = [];
+        for ( var y = 0; y < 4; ++y ) {
+            next3[ y ] = [];
+            for ( var x = 0; x < 4; ++x ) {
+                var i = 4 * y + x;
+                if ( typeof shape[ i ] != 'undefined' && shape[ i ] ) {
+                    next3[ y ][ x ] = next3Id + 1;
+                }
+                else {
+                    next3[ y ][ x ] = 0;
+                }
+            }
+        }
+    }
     drawNext();
 }
 
@@ -56,13 +96,17 @@ function getNextId(){
 
 // move 'next' shape to 'current' shape
 function moveToCurrent() {
-    current = next.slice(); // move next shape to current shape
-    currentId = nextId;
+    current = next1.slice(); // move next shape to current shape
+    next1 = next2.slice();
+    next2 = next3.slice();
+    currentId = next1Id;
+    next1Id = next2Id;
+    next2Id = next3Id;
     freezed = false;
     // position where the shape will evolve
     currentX = ghostCurrentX = 5;
     currentY = ghostCurrentY = 0;
-    newShape();
+    newShape(false);
     while( pullDownGhost() ) {
         ++ghostCurrentY;
     }
@@ -287,7 +331,7 @@ function newGame() {
     clearInterval( interval );
     setcolor = setInterval( render, 30 );
     init();
-    newShape();
+    newShape(true);
     moveToCurrent();
     lose = false;
     interval = setInterval( tick, 400 );

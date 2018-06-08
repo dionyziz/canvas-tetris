@@ -110,9 +110,17 @@ function drawNext() {
     ctx.clearRect( 301, 50, 139, 600 );
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
-            if ( next[ y ][ x ] ) {
-                ctx.fillStyle = colors[ next[ y ][ x ] - 1 ];
-                drawBlock( 10.5 + x, 2 + y );
+            if ( next1[ y ][ x ] ) {
+                ctx.fillStyle = colors[ next1[ y ][ x ] - 1 ];
+                drawBlock( 10.5 + x, 2.5 + y );
+            }
+            if ( next2[ y ][ x ] ) {
+                ctx.fillStyle = colors[ next2[ y ][ x ] - 1 ];
+                drawBlock( 10.5 + x, 6 + y );
+            }
+            if ( next3[ y ][ x ] ) {
+                ctx.fillStyle = colors[ next3[ y ][ x ] - 1 ];
+                drawBlock( 10.5 + x, 9.5 + y );
             }
         }
     }
