@@ -127,7 +127,12 @@ function drawNext() {
 }
 
 function gameOver() {
-    ctx.strokeStyle = 'black';
+	ctx.clearRect( 0, 0, 440, 600 );
+   
+    clearInterval( setcolor );
+    ctx.fillStyle = 'black';
+    ctx.fillRect( 0, 0, 440, 600 );
+    
     for ( var x = 0; x < COLS; ++x ) {
         for ( var y = 0; y < ROWS; ++y ) {
             if ( board[ y ][ x ] ) {
@@ -136,12 +141,28 @@ function gameOver() {
             }
         }
     }
-    clearInterval( setcolor );
-    ctx.fillStyle = 'black';
-    ctx.globalAlpha = '0.1';
-    ctx.fillRect( 0, 0, 440, 600 );
+    ctx.strokeStyle = 'gray';
+    ctx.beginPath();
+    ctx.moveTo( 300, 0 );
+    ctx.lineTo( 300, 600 );
+    ctx.stroke();
+    ctx.font = '18.5pt Arial';
+    ctx.fillStyle = 'gray';
+    ctx.fillText( 'next block', 315, 40 );
+    ctx.strokeStyle = 'black';
+    for ( var y = 0; y < 4; ++y ) {
+        for ( var x = 0; x < 4; ++x ) {
+            if ( next[ y ][ x ] ) {
+                ctx.fillStyle = 'gray';
+                drawBlock( 10.5 + x, 2 + y );
+            }
+        }
+    }
+
     ctx.fillStyle = 'white';
-    ctx.globalAlpha = '1';
-    ctx.font = '30px Arial';
-    ctx.fillText( 'Game Over', 150, 300 );
+    ctx.font = '45px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText( 'Game Over', 220, 300 );
+    ctx.textAlign = 'left';
 }
+
