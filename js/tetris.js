@@ -11,6 +11,7 @@ var next1Id, next2Id, next3Id; // id of next moving shape
 var currentX, currentY; // position of current shape
 var ghostCurrentX, ghostCurrentY; // position of ghost of current shape
 var freezed; // is current shape settled on the board?
+var score;
 
 // creates a new 4x4 shape in global variable 'next'
 // 4x4 so as to cover the size when the shape is rotated
@@ -213,6 +214,8 @@ function clearLines() {
             var clearSound = new Audio( 'sound/line-clear.mp3' );
             clearSound.volume = 0.3;
             clearSound.play();
+            score = score + 1;
+        	drawScore();
             for ( var yy = y; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
                     board[ yy ][ x ] = board[ yy - 1 ][ x ];
@@ -327,6 +330,8 @@ function playButtonClicked() {
 }
 
 function newGame() {
+	score = 0;
+	drawScore();
     ctx.globalAlpha = '1';
     clearInterval( interval );
     setcolor = setInterval( render, 30 );

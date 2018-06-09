@@ -107,7 +107,7 @@ function drawLine() {
 }
 
 function drawNext() {
-    ctx.clearRect( 301, 50, 139, 600 );
+    ctx.clearRect( 301, 50, 139, 350 );
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
             if ( next1[ y ][ x ] ) {
@@ -124,6 +124,14 @@ function drawNext() {
             }
         }
     }
+}
+
+function drawScore() {
+	ctx.clearRect( 301, 400, 139, 200 );
+	ctx.font = '18.5pt Arial';
+	ctx.fillStyle = 'black';
+	ctx.fillText( 'Score', 315, 450 );
+	ctx.fillText( score, 315, 490 );
 }
 
 function gameOver() {
