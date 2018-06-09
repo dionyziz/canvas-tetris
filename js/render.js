@@ -150,11 +150,17 @@ function gameOver() {
     ctx.fillStyle = 'gray';
     ctx.fillText( 'next block', 315, 40 );
     ctx.strokeStyle = 'black';
+    ctx.fillStyle = 'gray';
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
-            if ( next[ y ][ x ] ) {
-                ctx.fillStyle = 'gray';
-                drawBlock( 10.5 + x, 2 + y );
+            if ( next1[ y ][ x ] ) {
+                drawBlock( 10.5 + x, 2.5 + y );
+            }
+            if ( next2[ y ][ x ] ) {
+                drawBlock( 10.5 + x, 6 + y );
+            }
+            if ( next3[ y ][ x ] ) {
+                drawBlock( 10.5 + x, 9.5 + y );
             }
         }
     }
