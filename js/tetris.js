@@ -17,7 +17,6 @@ var pause = false;
 // creates a new 4x4 shape in global variable 'next'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape( init ) {
-
     if( init == true ) {
         next1Id = getNextId();
         next2Id = getNextId();
@@ -25,7 +24,6 @@ function newShape( init ) {
         var shape1 = shapes[ next1Id ];
         var shape2 = shapes[ next2Id ];
         var shape3 = shapes[ next3Id ];
-
         next1 = [];
         next2 = [];
         next3 = [];
@@ -58,8 +56,7 @@ function newShape( init ) {
     }
     else {
         next3Id = getNextId();
-        var shape = shapes[ next3Id ]; // maintain id for color filling
-
+        var shape = shapes[ next3Id ];
         next3 = [];
         for ( var y = 0; y < 4; ++y ) {
             next3[ y ] = [];
@@ -78,7 +75,7 @@ function newShape( init ) {
 }
 
 // get id of next shape in shuffle list
-function getNextId(){
+function getNextId() {
     var index = currentShuffleIndex;
     if ( index == 0 ) {
         for (var i = shuffleList.length - 1; i > 0; i--) {
@@ -133,9 +130,9 @@ function tick() {
 	    // if the element settled
 	    else {
 	        freeze();
-	        valid(0, 1);
+	        valid( 0, 1 );
 	        clearLines();
-	        if (lose) {
+	        if ( lose ) {
 	            return false;
 	        }
 	        moveToCurrent();
@@ -161,12 +158,12 @@ function freeze() {
     }
 }
 
-function checkLast(){
+function checkLast() {
     for ( var y = 0; y < 4; ++y ) {
         for ( var x = 0; x < 4; ++x ) {
             if( current[ y ][ x ]){
                 if( board[ y + currentY ][ x + currentX ] ) {
-                    clearInterval (setcolor);
+                    clearInterval( setcolor );
                     return true;
                 }
             }

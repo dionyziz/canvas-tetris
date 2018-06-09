@@ -13,7 +13,7 @@ function drawBlock( x, y ) {
 function render() {
 	if ( pause == false ) {
 	    ctx.clearRect( 0, 0, W, H );
-	
+
 	    ctx.strokeStyle = 'black';
 	    for ( var x = 0; x < COLS; ++x ) {
 	        for ( var y = 0; y < ROWS; ++y ) {
@@ -23,7 +23,7 @@ function render() {
 	            }
 	        }
 	    }
-	
+
 	    ctx.fillStyle = 'red';
 	    ctx.strokeStyle = 'black';
 	    for ( var y = 0; y < 4; ++y ) {
@@ -64,11 +64,11 @@ function drawLast() {
                 }
             }
         }
-        if( row != 10){
+        if( row != 10 ){
             cnt++;
         }
     }
-    if( row == 10){
+    if( row == 10 ){
         return;
     }
 
@@ -82,9 +82,9 @@ function drawLast() {
             if ( current[ y ][ x ] ) {
                 if ( typeof board[ row - cnt ] == 'undefined'
                     || typeof board[ row - cnt ][ x + currentX ] == 'undefined'
-                    || !board[ row - cnt][currentX + x] ) {
+                    || !board[ row - cnt][ currentX + x ] ) {
                         ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
-                        board [ row - cnt ][ currentX + x ] = current [ y ][ x ];
+                        board[ row - cnt ][ currentX + x ] = current[ y ][ x ];
                         drawBlock( currentX + x, row - cnt );
                         empty = 0;
                 }
@@ -138,11 +138,10 @@ function drawScore() {
 
 function gameOver() {
 	ctx.clearRect( 0, 0, 440, 600 );
-   
     clearInterval( setcolor );
     ctx.fillStyle = 'black';
     ctx.fillRect( 0, 0, 440, 600 );
-    
+
     for ( var x = 0; x < COLS; ++x ) {
         for ( var y = 0; y < ROWS; ++y ) {
             if ( board[ y ][ x ] ) {
@@ -181,4 +180,3 @@ function gameOver() {
     ctx.fillText( 'Game Over', 220, 300 );
     ctx.textAlign = 'left';
 }
-
