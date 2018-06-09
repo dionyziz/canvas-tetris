@@ -12,6 +12,7 @@ var currentX, currentY; // position of current shape
 var ghostCurrentX, ghostCurrentY; // position of ghost of current shape
 var freezed; // is current shape settled on the board?
 var score;
+var pause = false;
 
 // creates a new 4x4 shape in global variable 'next'
 // 4x4 so as to cover the size when the shape is rotated
@@ -125,19 +126,21 @@ function init() {
 
 // keep the element moving down, creating new shapes and clearing lines
 function tick() {
-    if ( valid( 0, 1 ) ) {
-        ++currentY;
-    }
-    // if the element settled
-    else {
-        freeze();
-        valid(0, 1);
-        clearLines();
-        if (lose) {
-            return false;
-        }
-        moveToCurrent();
-    }
+	if ( pause == false ){
+	    if ( valid( 0, 1 ) ) {
+	        ++currentY;
+	    }
+	    // if the element settled
+	    else {
+	        freeze();
+	        valid(0, 1);
+	        clearLines();
+	        if (lose) {
+	            return false;
+	        }
+	        moveToCurrent();
+	    }
+	}
 }
 
 // stop shape at its position and fix it to board
@@ -227,51 +230,57 @@ function clearLines() {
 }
 
 function keyPress( key ) {
-    switch ( key ) {
-        case 'left':
-            if ( valid( -1 ) ) {
-                --currentX;
-                --ghostCurrentX;
-                ghostCurrentY = currentY;
-                while( pullDownGhost() ) {
-                    ++ghostCurrentY;
-                }
-            }
-            break;
-        case 'right':
-            if ( valid( 1 ) ) {
-                ++currentX;
-                ++ghostCurrentX;
-                ghostCurrentY = currentY;
-                while( pullDownGhost() ) {
-                    ++ghostCurrentY;
-                }
-            }
-            break;
-        case 'down':
-            if ( valid( 0, 1 ) ) {
-                ++currentY;
-            }
-            break;
-        case 'rotate':
-            var rotated = rotate( current );
-            var rotateSound = new Audio( 'sound/block-rotate.mp3' );
-            rotateSound.volume = 0.7
-            rotateSound.play();
-            if ( valid( 0, 0, rotated ) ) {
-                current = rotated;
-                ghostCurrentY = currentY;
-                while( pullDownGhost() ) {
-                    ++ghostCurrentY;
-                }
-            }
-            break;
-        case 'drop':
-            while( valid(0, 1) ) {
-                ++currentY;
-            }
-            tick();
-            break;
+    if( pause == false ){
+	    switch ( key ) {
+	        case 'left':
+	            if ( valid( -1 ) ) {
+	                --currentX;
+	                --ghostCurrentX;
+	                ghostCurrentY = currentY;
+	                while( pullDownGhost() ) {
+	                    ++ghostCurrentY;
+	                }
+	            }
+	            break;
+	        case 'right':
+	            if ( valid( 1 ) ) {
+	                ++currentX;
+	                ++ghostCurrentX;
+	                ghostCurrentY = currentY;
+	                while( pullDownGhost() ) {
+	                    ++ghostCurrentY;
+	                }
+	            }
+	            break;
+	        case 'down':
+	            if ( valid( 0, 1 ) ) {
+	                ++currentY;
+	            }
+	            break;
+	        case 'rotate':
+	            var rotated = rotate( current );
+	            var rotateSound = new Audio( 'sound/block-rotate.mp3' );
+	            rotateSound.volume = 0.7
+	            rotateSound.play();
+	            if ( valid( 0, 0, rotated ) ) {
+	                current = rotated;
+	                ghostCurrentY = currentY;
+	                while( pullDownGhost() ) {
+	                    ++ghostCurrentY;
+	                }
+	            }
+	            break;
+	        case 'drop':
+	            while( valid(0, 1) ) {
+	                ++currentY;
+	            }
+	            tick();
+	            break;
+	    }
+    }
+    if( key == 'pause' ){
+    	if ( pause == false ) pause = true;
+    	else pause = false;
     }
 }
 
@@ -332,7 +341,6 @@ function playButtonClicked() {
 function newGame() {
 	score = 0;
 	drawScore();
-    ctx.globalAlpha = '1';
     clearInterval( interval );
     setcolor = setInterval( render, 30 );
     init();

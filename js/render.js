@@ -11,39 +11,41 @@ function drawBlock( x, y ) {
 
 // draws the board and the moving shape
 function render() {
-    ctx.clearRect( 0, 0, W, H );
-
-    ctx.strokeStyle = 'black';
-    for ( var x = 0; x < COLS; ++x ) {
-        for ( var y = 0; y < ROWS; ++y ) {
-            if ( board[ y ][ x ] ) {
-                ctx.fillStyle = colors[ board[ y ][ x ] - 1 ];
-                drawBlock( x, y );
-            }
-        }
-    }
-
-    ctx.fillStyle = 'red';
-    ctx.strokeStyle = 'black';
-    for ( var y = 0; y < 4; ++y ) {
-        for ( var x = 0; x < 4; ++x ) {
-            if ( current[ y ][ x ] ) {
-                if( !checkLast() ) {
-                    ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
-                    drawBlock( currentX + x, currentY + y );
-                    ctx.globalAlpha = 0.4;
-                    drawBlock( ghostCurrentX + x, ghostCurrentY + y );
-                    ctx.globalAlpha = 1.0;
-                }
-                else {
-                    if( !lose ) {
-                        drawLast();
-                    }
-                    return;
-                }
-            }
-        }
-    }
+	if ( pause == false ) {
+	    ctx.clearRect( 0, 0, W, H );
+	
+	    ctx.strokeStyle = 'black';
+	    for ( var x = 0; x < COLS; ++x ) {
+	        for ( var y = 0; y < ROWS; ++y ) {
+	            if ( board[ y ][ x ] ) {
+	                ctx.fillStyle = colors[ board[ y ][ x ] - 1 ];
+	                drawBlock( x, y );
+	            }
+	        }
+	    }
+	
+	    ctx.fillStyle = 'red';
+	    ctx.strokeStyle = 'black';
+	    for ( var y = 0; y < 4; ++y ) {
+	        for ( var x = 0; x < 4; ++x ) {
+	            if ( current[ y ][ x ] ) {
+	                if( !checkLast() ) {
+	                    ctx.fillStyle = colors[ current[ y ][ x ] - 1 ];
+	                    drawBlock( currentX + x, currentY + y );
+	                    ctx.globalAlpha = 0.4;
+	                    drawBlock( ghostCurrentX + x, ghostCurrentY + y );
+	                    ctx.globalAlpha = 1.0;
+	                }
+	                else {
+	                    if( !lose ) {
+	                        drawLast();
+	                    }
+	                    return;
+	                }
+	            }
+	        }
+	    }
+	}
 }
 
 function drawLast() {
