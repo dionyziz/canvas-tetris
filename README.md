@@ -6,9 +6,6 @@ http://www.youtube.com/watch?v=GQTZ_TPxJhM
 Play:
 https://dionyziz.com/graphics/canvas-tetris/
 
-Or you can [play it here](https://plugins.quadnix.com/launch?author=quadnix&id=canvas-tetris),
-powered by [Quadnix Plugins](https://plugins.quadnix.com).
-
 License
 =======
 This version of tetris is MIT licensed:
