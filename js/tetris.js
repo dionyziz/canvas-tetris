@@ -67,6 +67,11 @@ function init() {
 
 // keep the element moving down, creating new shapes and clearing lines
 function tick() {
+    // don't move pieces while animation is playing
+    if (isAnimating) {
+        return;
+    }
+    
     if ( valid( 0, 1 ) ) {
         ++currentY;
     }
@@ -110,6 +115,9 @@ function rotate( current ) {
 
 // check if any lines are filled and clear them
 function clearLines() {
+    var linesToClear = [];
+    
+    // find all filled lines
     for ( var y = ROWS - 1; y >= 0; --y ) {
         var rowFilled = true;
         for ( var x = 0; x < COLS; ++x ) {
@@ -119,14 +127,55 @@ function clearLines() {
             }
         }
         if ( rowFilled ) {
-            document.getElementById( 'clearsound' ).play();
-            for ( var yy = y; yy > 0; --yy ) {
+            linesToClear.push(y);
+        }
+    }
+    
+    // if we found lines to clear, start animation
+    if (linesToClear.length > 0) {
+        animatingLines = linesToClear.slice(); // copy array
+        animationFrame = 0;
+        isAnimating = true;
+        document.getElementById( 'clearsound' ).play();
+    }
+}
+
+// process animation frames and complete line clearing
+function updateAnimation() {
+    if (!isAnimating) {
+        return;
+    }
+    
+    animationFrame++;
+    
+    // animation duration: 9 frames (about 300ms at 30fps)
+    if (animationFrame >= 9) {
+        // animation complete, actually remove the lines
+        for (var i = 0; i < animatingLines.length; i++) {
+            var lineY = animatingLines[i];
+            // shift all lines above down
+            for ( var yy = lineY; yy > 0; --yy ) {
                 for ( var x = 0; x < COLS; ++x ) {
                     board[ yy ][ x ] = board[ yy - 1 ][ x ];
                 }
             }
-            ++y;
+            // clear top line
+            for ( var x = 0; x < COLS; ++x ) {
+                board[ 0 ][ x ] = 0;
+            }
+            
+            // adjust remaining line indices since we shifted down
+            for (var j = i + 1; j < animatingLines.length; j++) {
+                if (animatingLines[j] < lineY) {
+                    animatingLines[j]++;
+                }
+            }
         }
+        
+        // reset animation state
+        animatingLines = [];
+        animationFrame = 0;
+        isAnimating = false;
     }
 }
 
@@ -202,6 +251,10 @@ function newGame() {
     init();
     newShape();
     lose = false;
+    // reset animation state
+    animatingLines = [];
+    animationFrame = 0;
+    isAnimating = false;
     interval = setInterval( tick, 400 );
 }
 
