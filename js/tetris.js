@@ -6,6 +6,9 @@ var intervalRender;
 var current; // current moving shape
 var currentX, currentY; // position of current shape
 var freezed; // is current shape settled on the board?
+var animatingLines = []; // lines being animated for clearing
+var animationFrame = 0; // current animation frame counter
+var isAnimating = false; // flag to pause game during animation
 var shapes = [
     [ 1, 1, 1, 1 ],
     [ 1, 1, 1, 0,
